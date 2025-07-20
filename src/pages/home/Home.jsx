@@ -1,21 +1,22 @@
-import { NavLink, Outlet } from "react-router";
-import Header from "../../components/Header";
+import { Button } from "@material-tailwind/react";
+import { useState } from "react"
+
 
 export default function Home() {
+
+  const [data, setData] = useState([]);
+
+
+  const handleData = () => {
+    setData((prev) => [...prev, 'hello']);
+  }
+
+  console.log(data);
+
   return (
-    <div>
-      <Header />
+    <div className="p-5">
 
-      <h1 className="text-3xl font-bold">This is Home Page</h1>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium ut, nobis, reprehenderit est atque consectetur vero et sit ipsa aspernatur maiores voluptates quae saepe alias soluta sequi ipsum dolorem quod!</p>
-
-
-      <nav>
-        <NavLink to={'/'}>Page1</NavLink>
-        <NavLink to={'/page-2'}>Page2</NavLink>
-      </nav>
-
-      <Outlet />
+      <Button onClick={handleData}>Click To Show Data</Button>
 
     </div>
   )

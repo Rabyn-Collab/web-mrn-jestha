@@ -7,7 +7,7 @@ export default function Header() {
       <h1 className="text-2xl">React Router</h1>
 
       <nav className="space-x-7">
-        <NavLink to={'/about'}>About</NavLink>
+        <NavLink className={({ isActive }) => isActive ? 'bg-white text-black' : 'text-white'} to={'/about'}>About</NavLink>
         <NavLink to={'/contact'}>Contact</NavLink>
       </nav>
 
