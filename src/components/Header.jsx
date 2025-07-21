@@ -4,7 +4,7 @@ export default function Header() {
   return (
     <div className="bg-black text-white p-3 flex items-baseline justify-between">
 
-      <h1 className="text-2xl">React Router</h1>
+      <h1 className="text-2xl">React Hooks</h1>
 
       <nav className="space-x-7">
         <NavLink className={({ isActive }) => isActive ? 'bg-white text-black' : 'text-white'} to={'/about'}>About</NavLink>
