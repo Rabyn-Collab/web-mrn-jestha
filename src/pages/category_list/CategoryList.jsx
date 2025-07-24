@@ -1,11 +1,13 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Typography } from "@material-tailwind/react";
 import axios from "axios"
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function CategoryList() {
   const [data, setData] = useState();
   const [load, setLoad] = useState(false);
   const [err, setErr] = useState();
+  const nav = useNavigate();
 
   const getData = async () => {
     setLoad(true);
@@ -14,7 +16,7 @@ export default function CategoryList() {
       setData(response.data);
       setLoad(false);
     } catch (err) {
-      console.log(err);
+
       setErr(err.message);
       setLoad(false);
 
@@ -27,7 +29,6 @@ export default function CategoryList() {
   if (load) return <h1>Loading....</h1>
   if (err) return <h1 className="text-pink-600">{err}</h1>
 
-  console.log(data);
   return (
     <div className="p-5 grid grid-cols-4 gap-5">
 
@@ -49,7 +50,7 @@ export default function CategoryList() {
             </p>
           </CardBody>
           <CardFooter className="pt-0">
-            <Button>Read More</Button>
+            <Button onClick={() => nav(`/meal-list?c=${category.strCategory}`)}>Read More</Button>
           </CardFooter>
         </Card>
       })}

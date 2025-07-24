@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import NotFound from "./pages/not-found/NotFound";
 import RootLayOut from "./components/RootLayOut";
 import CategoryList from "./pages/category_list/CategoryList";
+import MealList from "./pages/meal_list/MealList";
 
 export default function App() {
 
@@ -15,8 +16,11 @@ export default function App() {
         {
           index: true,
           element: <CategoryList />
-
         },
+        {
+          path: 'meal-list',
+          element: <MealList />
+        }
 
       ]
     },
