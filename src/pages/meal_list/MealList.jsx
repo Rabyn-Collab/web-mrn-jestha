@@ -1,3 +1,4 @@
+import { Avatar, Card, List, ListItem, ListItemPrefix, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router"
@@ -31,7 +32,24 @@ export default function MealList() {
   if (load) return <h1>Loading....</h1>
   if (err) return <h1 className="text-pink-600">{err}</h1>
   return (
-    <div>
+    <div className="p-5">
+      {data && data.meals.map((meal) => {
+        return <Card key={meal.idMeal} className="max-w-[700px] mb-5">
+          <List>
+            <ListItem>
+              <ListItemPrefix>
+                <Avatar variant="circular" alt="candice" src={meal.strMealThumb} />
+              </ListItemPrefix>
+              <div>
+                <Typography variant="h6" color="blue-gray">
+                  {meal.strMeal}
+                </Typography>
+
+              </div>
+            </ListItem>
+          </List>
+        </Card>
+      })}
 
     </div>
   )
