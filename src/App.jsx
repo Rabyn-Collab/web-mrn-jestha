@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router"
 import { RouterProvider } from "react-router-dom";
 import NotFound from "./pages/not-found/NotFound";
 import RootLayOut from "./components/RootLayOut";
+import CategoryList from "./pages/category_list/CategoryList";
 
 export default function App() {
 
@@ -13,6 +14,7 @@ export default function App() {
       children: [
         {
           index: true,
+          element: <CategoryList />
 
         },
 
