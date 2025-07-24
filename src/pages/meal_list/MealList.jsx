@@ -34,7 +34,9 @@ export default function MealList() {
   return (
     <div className="p-5">
       {data && data.meals.map((meal) => {
-        return <Card key={meal.idMeal} className="max-w-[700px] mb-5">
+        return <Card
+          onClick={() => nav(`/meal/${meal.idMeal}`)}
+          key={meal.idMeal} className="max-w-[700px] mb-5">
           <List>
             <ListItem>
               <ListItemPrefix>
