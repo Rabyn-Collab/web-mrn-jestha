@@ -28,7 +28,7 @@ export default function MealList() {
   useEffect(() => {
     getData();
   }, []);
-  console.log(data);
+
   if (load) return <h1>Loading....</h1>
   if (err) return <h1 className="text-pink-600">{err}</h1>
   return (
