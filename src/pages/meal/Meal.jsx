@@ -35,6 +35,7 @@ export default function Meal() {
   if (err) return <h1 className="text-pink-600">{err}</h1>
   return (
     <div className="p-5">
+      <p>Lorem <span className="text-red-600">sdlkfsdlknfsdklfn</span> dolor sit amet consectetur adipisicing elit. Nemo quisquam, <span className="text-green-700">perferendis temporibus beatae deleniti, </span> optio provident ea enim veniam esse facere harum nobis sit quae laborum consectetur voluptates repellendus ipsa!</p>
       {data && data.meals.map((meal) => {
         const vidId = meal.strYoutube.split('=')[1];
 

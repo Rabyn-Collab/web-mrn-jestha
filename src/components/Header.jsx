@@ -6,7 +6,9 @@ export default function Header() {
 
       <h1 className="text-2xl">React Recipe</h1>
 
-
+      <nav>
+        <NavLink to={'/about'}>About</NavLink>
+      </nav>
 
     </div>
   )

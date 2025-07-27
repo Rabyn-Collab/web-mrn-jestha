@@ -5,6 +5,8 @@ import RootLayOut from "./components/RootLayOut";
 import CategoryList from "./pages/category_list/CategoryList";
 import MealList from "./pages/meal_list/MealList";
 import Meal from "./pages/meal/Meal";
+import About from "./pages/about/About.jsx";
+import SearchPage from "./pages/search/SearchPage.jsx";
 
 export default function App() {
 
@@ -18,6 +20,15 @@ export default function App() {
           index: true,
           element: <CategoryList />
         },
+        {
+          path: 'about',
+          element: <About />
+        },
+        {
+          path: 'search',
+          element: <SearchPage />
+        },
+
         {
           path: 'meal-list',
           element: <MealList />
