@@ -1,31 +1,15 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Carousel, Typography } from "@material-tailwind/react";
-import axios from "axios"
-import { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router";
 import SearchInput from "../search/SearchInput.jsx";
+import { useApiHooks } from "../../hooks/apiHook.js";
 
 export default function CategoryList() {
-  const [data, setData] = useState();
-  const [load, setLoad] = useState(false);
-  const [err, setErr] = useState();
+
+  const [data, load, err] = useApiHooks('https://www.themealdb.com/api/json/v1/1/categories.php');
+
   const nav = useNavigate();
 
-  const getData = async () => {
-    setLoad(true);
-    try {
-      const response = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
-      setData(response.data);
-      setLoad(false);
-    } catch (err) {
-
-      setErr(err.message);
-      setLoad(false);
-
-    }
-  }
-  useEffect(() => {
-    getData();
-  }, []);
 
   if (load) return <h1>Loading....</h1>
   if (err) return <h1 className="text-pink-600">{err}</h1>

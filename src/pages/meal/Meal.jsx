@@ -1,41 +1,20 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+
 import { useParams } from "react-router"
+import { useApiHooks } from "../../hooks/apiHook.js";
 
 export default function Meal() {
   const { id } = useParams();
 
-
-  const [data, setData] = useState();
-  const [load, setLoad] = useState(false);
-  const [err, setErr] = useState();
+  const [data, load, err] = useApiHooks('https://www.themealdb.com/api/json/v1/1/lookup.php', { i: id });
 
 
-  const getData = async () => {
-    setLoad(true);
-    try {
-      const response = await axios.get('https://www.themealdb.com/api/json/v1/1/lookup.php', {
-        params: { i: id }
-      });
-      setData(response.data);
-      setLoad(false);
-    } catch (err) {
-
-      setErr(err.message);
-      setLoad(false);
-
-    }
-  }
-  useEffect(() => {
-    getData();
-  }, []);
 
 
   if (load) return <h1>Loading....</h1>
   if (err) return <h1 className="text-pink-600">{err}</h1>
   return (
     <div className="p-5">
-      <p>Lorem <span className="text-red-600">sdlkfsdlknfsdklfn</span> dolor sit amet consectetur adipisicing elit. Nemo quisquam, <span className="text-green-700">perferendis temporibus beatae deleniti, </span> optio provident ea enim veniam esse facere harum nobis sit quae laborum consectetur voluptates repellendus ipsa!</p>
+      {/* <p>Lorem <span className="text-red-600">sdlkfsdlknfsdklfn</span> dolor sit amet consectetur adipisicing elit. Nemo quisquam, <span className="text-green-700">perferendis temporibus beatae deleniti, </span> optio provident ea enim veniam esse facere harum nobis sit quae laborum consectetur voluptates repellendus ipsa!</p> */}
       {data && data.meals.map((meal) => {
         const vidId = meal.strYoutube.split('=')[1];
 
