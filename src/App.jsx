@@ -1,10 +1,8 @@
 import { createBrowserRouter } from "react-router"
-import Home from "./pages/home/Home";
-import About from "./pages/about/About";
 import { RouterProvider } from "react-router-dom";
-import Contact from "./pages/contact/Contact";
-import NotFound from "./pages/not-found/NotFound";
+
 import RootLayOut from "./components/RootLayOut";
+import UsersList from "./features/users/UsersList.jsx";
 
 export default function App() {
 
@@ -16,24 +14,18 @@ export default function App() {
       children: [
         {
           index: true,
-          element: <Home />
+          element: <UsersList />
+
         },
-        {
-          path: 'about',
-          element: <About />
-        },
-        {
-          path: 'contact',
-          element: <Contact />
-        },
+
       ]
     },
 
 
-    {
-      path: '*',
-      element: <NotFound />
-    }
+    // {
+    //   path: '*',
+    //   element: <NotFound />
+    // }
   ]);
 
   return <RouterProvider router={router} />
