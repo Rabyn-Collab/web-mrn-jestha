@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 
 import RootLayOut from "./components/RootLayOut";
 import UsersList from "./features/users/UsersList.jsx";
+import UserAddForm from "./features/users/UserAddForm.jsx";
 
 export default function App() {
 
@@ -15,8 +16,11 @@ export default function App() {
         {
           index: true,
           element: <UsersList />
-
         },
+        {
+          path: 'add-form',
+          element: <UserAddForm />
+        }
 
       ]
     },

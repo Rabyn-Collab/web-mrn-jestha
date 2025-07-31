@@ -1,21 +1,42 @@
-import { Button } from "@material-tailwind/react";
-import { useDispatch, useSelector } from "react-redux"
-import { addUser } from "./userSlice.js";
+
+import { Typography } from "@material-tailwind/react";
+import { useSelector } from "react-redux"
+
 
 export default function UsersList() {
 
   const { users } = useSelector((state) => state.userSlice);
-  const dispatch = useDispatch();
 
   console.log(users);
+
   return (
-    <div className="p-5">
+    <div className="p-5 grid grid-cols-4" >
 
-      <Button onClick={() => dispatch(addUser(Math.floor(Math.random() * 100 + 1)))}>Add Number</Button>
+      {users.map((user) => {
+        return <div key={user.id}>
+          <h1 className="font-bold">{user.username}</h1>
+          <div>
+            <p>{user.email}</p>
+          </div>
+          <div>
+            <p>{user.country}</p>
+          </div>
+          <div>
+            <p>{user.gender}</p>
+          </div>
+          <div className="flex gap-3">
+            {user.habits.map((habit, i) => {
+              return <p key={i}>{habit}</p>
+            })}
+          </div>
 
-      {users.map((user, i) => {
-        return <h1 key={i}>{user}</h1>
+          <Typography color="brown">{user.bio}</Typography>
+
+
+        </div>
       })}
+
+
 
     </div>
   )
