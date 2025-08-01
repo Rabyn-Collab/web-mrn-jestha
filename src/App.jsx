@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router"
 import { RouterProvider } from "react-router-dom";
-
 import RootLayOut from "./components/RootLayOut";
-import UsersList from "./features/users/UsersList.jsx";
-import UserAddForm from "./features/users/UserAddForm.jsx";
-import UserUpdateForm from "./features/users/UserUpdateForm.jsx";
+import ArticleList from "./features/articles/ArticleList.jsx";
+
+
 
 export default function App() {
 
@@ -16,16 +15,9 @@ export default function App() {
       children: [
         {
           index: true,
-          element: <UsersList />
+          path: <ArticleList />
         },
-        {
-          path: 'add-form',
-          element: <UserAddForm />
-        },
-        {
-          path: 'update-form/:id',
-          element: <UserUpdateForm />
-        }
+
 
       ]
     },

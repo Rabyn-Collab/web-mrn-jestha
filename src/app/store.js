@@ -1,13 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userSlice } from "../features/users/userSlice.js";
+import { articleApi } from "../features/articles/articleApi.js";
 
 
+// const per = {
+//   name: 'hello'
+// };
 
-
+// const c = {
+//   [per.name]: 'sello'
+// }
 
 
 export const store = configureStore({
   reducer: {
-    userSlice: userSlice.reducer
-  }
+    [articleApi.reducerPath]: articleApi.reducer
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([
+    articleApi.middleware
+  ])
 });
