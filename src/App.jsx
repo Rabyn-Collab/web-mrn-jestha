@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router"
 import { RouterProvider } from "react-router-dom";
 import RootLayOut from "./components/RootLayOut";
 import ArticleList from "./features/articles/ArticleList.jsx";
+import AddArticleForm from "./features/articles/AddArticleForm.jsx";
 
 
 
@@ -15,8 +16,12 @@ export default function App() {
       children: [
         {
           index: true,
-          path: <ArticleList />
+          element: <ArticleList />
         },
+        {
+          path: 'add-article',
+          element: <AddArticleForm />
+        }
 
 
       ]

@@ -21,6 +21,15 @@ export const articleApi = createApi({
 
     }),
 
+    createArticle: builder.mutation({
+      query: (data) => ({
+        url: '/articles',
+        body: data,
+        method: 'POST'
+      })
+    })
+
+
 
 
 
@@ -33,4 +42,4 @@ export const articleApi = createApi({
 
 });
 
-export const { useGetArticlesQuery, useLazyGetArticlesQuery } = articleApi;
+export const { useGetArticlesQuery, useCreateArticleMutation, useLazyGetArticlesQuery } = articleApi;
