@@ -1,5 +1,6 @@
 import { Button, Typography } from "@material-tailwind/react";
 import { useGetArticlesQuery, useLazyGetArticlesQuery } from "./articleApi.js"
+import RemoveArticle from "./RemoveArticle.jsx";
 
 export default function ArticleList() {
   const { isLoading, error, data } = useGetArticlesQuery();
@@ -19,11 +20,10 @@ export default function ArticleList() {
 
       {data && data.map((article) => {
         return <div key={article.id} className="space-y-3">
-          <img src={article.image} alt="" />
+          <img className="h-[200px]" src={article.image} alt="" />
           <h1 className="font-bold">{article.title}</h1>
           <Typography color="blue-gray">{article.detail}</Typography>
-
-
+          <RemoveArticle id={article.id} />
         </div>
       })}
 
