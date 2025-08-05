@@ -25,7 +25,7 @@ export const articleApi = createApi({
       query: (data) => ({
         url: '/articles',
         body: data,
-        method: 'POST'
+        method: 'POST',
       }),
       invalidatesTags: ['Articles']
     }),
