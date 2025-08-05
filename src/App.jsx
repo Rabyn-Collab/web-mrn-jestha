@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router"
 import { RouterProvider } from "react-router-dom";
 import RootLayOut from "./components/RootLayOut";
-import ArticleList from "./features/articles/ArticleList.jsx";
-import AddArticleForm from "./features/articles/AddArticleForm.jsx";
-
-
+import Home from "./features/home/Home.jsx";
+import MovieSearch from "./features/movies/MovieSearch.jsx";
+import PopularMovies from "./features/movies/PopularMovies.jsx";
 
 export default function App() {
 
@@ -16,22 +15,21 @@ export default function App() {
       children: [
         {
           index: true,
-          element: <ArticleList />
+          element: <Home />
         },
         {
-          path: 'add-article',
-          element: <AddArticleForm />
-        }
-
+          path: 'search-movie',
+          element: <MovieSearch />
+        },
+        {
+          path: 'popular-movie',
+          element: <PopularMovies />
+        },
 
       ]
     },
 
 
-    // {
-    //   path: '*',
-    //   element: <NotFound />
-    // }
   ]);
 
   return <RouterProvider router={router} />

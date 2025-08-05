@@ -2,12 +2,14 @@ import { NavLink } from "react-router";
 
 export default function Header() {
   return (
-    <div className="bg-black text-white p-3 flex items-baseline justify-between">
+    <div className="bg-black text-white p-3 flex items-baseline justify-between sticky top-0">
 
       <h1 className="text-2xl">Redux Toolkit</h1>
 
       <nav className="space-x-7">
-        <NavLink to={'/add-article'}>Create Article</NavLink>
+
+        <NavLink to={'/popular-movie'}>Popular</NavLink>
+
 
       </nav>
 
