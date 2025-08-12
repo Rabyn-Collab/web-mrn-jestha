@@ -1,5 +1,5 @@
 import Product from "../models/Product.js"
-
+import mongoose from "mongoose"
 
 
 
@@ -29,8 +29,18 @@ export const createProduct = async (req, res) => {
 
 export const updateProduct = (req, res) => {
 
+
 }
 
-export const removeProduct = (req, res) => {
+export const removeProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'please provide valid id' });
+    await Product.findByIdAndDelete(id);
+    return res.status(200).json({ message: 'Product deleted successfully' });
 
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+
+  }
 }
