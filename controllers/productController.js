@@ -1,43 +1,105 @@
 import Product from "../models/Product.js"
 import mongoose from "mongoose"
-
+import fs from 'fs';
+import { removeFile } from "../utils/removeFile.js";
 
 
 export const getProducts = async (req, res) => {
 
-
-
-
-
-}
-
-
-export const getProduct = (req, res) => {
-
-}
-
-export const createProduct = async (req, res) => {
   try {
-    await Product.create(req.body);
-    return res.status(201).json({ message: 'Product created successfully' });
+    const products = await Product.find();
+    return res.status(200).json(products);
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
 
 
-}
-
-export const updateProduct = (req, res) => {
 
 
 }
+
+
+export const getProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+
+    if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'please provide valid id' });
+    const isExist = await Product.findById(id);
+    if (!isExist) res.status(404).json({ message: 'Product not found' });
+    return res.status(200).json(isExist);
+
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+
+  }
+}
+
+export const createProduct = async (req, res) => {
+  try {
+    await Product.create({
+      ...req.body,
+      image: req.imagePath
+    });
+    return res.status(201).json({ message: 'Product created successfully' });
+  } catch (err) {
+    fs.unlink(`./uploads/${req.imagePath}`, (error) => {
+      return res.status(400).json({ message: err.message });
+    })
+
+  }
+
+}
+
+
+
+export const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  try {
+
+    if (!mongoose.isValidObjectId(id)) {
+      if (req.imagePath) removeFile();
+      return res.status(400).json({ message: 'please provide valid id' });
+    }
+    const isExist = await Product.findById(id);
+
+    if (!isExist) {
+      if (req.imagePath) removeFile();
+      res.status(404).json({ message: 'Product not found' });
+    }
+
+    isExist.title = req.body?.title || isExist.title;
+    isExist.description = req.body?.description || isExist.description;
+    isExist.brand = req.body?.brand || isExist.brand;
+    isExist.price = req.body?.price || isExist.price;
+    isExist.category = req.body?.category || isExist.category;
+    isExist.image = req.imagePath || isExist.image;
+    isExist.save();
+
+    return res.status(200).json({ message: 'product updated successfully' });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+}
+
+
+
+
+
+
+
 
 export const removeProduct = async (req, res) => {
   const { id } = req.params;
   try {
     if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'please provide valid id' });
-    await Product.findByIdAndDelete(id);
-    return res.status(200).json({ message: 'Product deleted successfully' });
+    const isExist = await Product.findById(id);
+
+    if (!isExist) res.status(404).json({ message: 'Product not found' });
+
+    fs.unlink(`./uploads/${isExist.image}`, async (error) => {
+      await isExist.deleteOne();
+      return res.status(200).json({ message: 'Product deleted successfully' });
+    });
 
   } catch (err) {
     return res.status(400).json({ message: err.message });
