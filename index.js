@@ -9,6 +9,12 @@ import fileUpload from 'express-fileupload';
 const app = express();
 const port = 5000;
 
+// const names = ['ram', 'shyam', 'Rita'];
+// const search = 'rita';
+
+//  const result = names.some((name) => name.toLowerCase() === search.toLowerCase());
+
+
 mongoose.connect('mongodb+srv://psg017597:pass900@cluster0.yqujtfd.mongodb.net/Shop').then(() => {
   app.listen(port, () => {
     console.log('database connect and server is running');

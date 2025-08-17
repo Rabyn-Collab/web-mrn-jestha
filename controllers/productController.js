@@ -1,4 +1,4 @@
-import Product from "../models/Product.js"
+import Product, { brands, categories } from "../models/Product.js"
 import mongoose from "mongoose"
 import fs from 'fs';
 import { removeFile } from "../utils/removeFile.js";
@@ -7,8 +7,50 @@ import { removeFile } from "../utils/removeFile.js";
 export const getProducts = async (req, res) => {
 
   try {
-    const products = await Product.find({}).select('title category');
-    return res.status(200).json(products);
+    const queryObject = { ...req.query };
+    const excludedFields = ['sort', 'fields', 'search', 'page', 'limit', 'skip'];
+    excludedFields.forEach((field) => {
+      delete queryObject[field]
+    })
+    console.log(queryObject);
+
+    if (req.query.search) {
+      const searchText = req.query.search;
+
+
+      if (categories.some((name) => name.toLowerCase() === searchText.toLowerCase())) {
+        queryObject.category = { $regex: searchText, $options: 'i' };
+      } else if (brands.some((name) => name.toLowerCase() === searchText.toLowerCase())) {
+        queryObject.brand = { $regex: searchText, $options: 'i' };
+      } else {
+        queryObject.title = { $regex: searchText, $options: 'i' };
+      }
+
+
+    }
+
+    const query = Product.find(queryObject);
+
+    if (req.query.sort) {
+      const sorting = req.query.sort.split(/[\s,]+/).filter(Boolean).join(' ');
+      query.sort(sorting);
+    }
+
+    if (req.query.fields) {
+      const fields = req.query.fields.split(/[\s,]+/).filter(Boolean).join(' ');
+      query.select(fields);
+    }
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    const skip = (page - 1) * 10;
+
+    const total = await Product.countDocuments();
+    const products = await query.skip(skip).limit(limit);
+    return res.status(200).json({
+      products,
+      total: total,
+      totalPages: Math.ceil(total / limit)
+    });
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
