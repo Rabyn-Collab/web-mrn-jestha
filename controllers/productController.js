@@ -4,6 +4,11 @@ import fs from 'fs';
 import { removeFile } from "../utils/removeFile.js";
 
 
+export const getTop5products = (req, res, next) => {
+  req.top5 = true;
+  next();
+}
+
 export const getProducts = async (req, res) => {
 
   try {
@@ -12,7 +17,7 @@ export const getProducts = async (req, res) => {
     excludedFields.forEach((field) => {
       delete queryObject[field]
     })
-    console.log(queryObject);
+
 
     if (req.query.search) {
       const searchText = req.query.search;
@@ -29,7 +34,24 @@ export const getProducts = async (req, res) => {
 
     }
 
-    const query = Product.find(queryObject);
+    const output = Object.entries(queryObject).reduce((acc, [key, value]) => {
+      const match = key.match(/(.?)\[(.?)\]/);
+      if (match) {
+        const field = match[1];
+        const operator = `$${match[2]}`;
+        const parsedValue = isNaN(value) ? value : Number(value);
+
+        acc[field] = { [operator]: parsedValue };
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+
+    const query = Product.find(req.top5 ? { rating: { $gt: 4 } } : output);
+
+
+
 
     if (req.query.sort) {
       const sorting = req.query.sort.split(/[\s,]+/).filter(Boolean).join(' ');
@@ -41,7 +63,7 @@ export const getProducts = async (req, res) => {
       query.select(fields);
     }
     const page = req.query.page || 1;
-    const limit = req.query.limit || 10;
+    const limit = req.top5 ? 5 : req.query.limit || 10;
     const skip = (page - 1) * 10;
 
     const total = await Product.countDocuments();
