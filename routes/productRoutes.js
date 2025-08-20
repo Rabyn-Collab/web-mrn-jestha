@@ -2,6 +2,7 @@ import express from 'express';
 import { createProduct, getProduct, getProducts, getTop5products, removeProduct, updateProduct } from '../controllers/productController.js';
 import { checkFile, updateFile } from '../middlewares/fileCheck.js';
 import { productShchema, productUpdateSchema, validatorJoi } from '../utils/validator.js';
+import { adminCheck, checkUser } from '../middlewares/checkAuth.js';
 
 
 
@@ -9,15 +10,15 @@ import { productShchema, productUpdateSchema, validatorJoi } from '../utils/vali
 const router = express.Router();
 
 //getAllProducts,getTopRatedProducts, searchProduct,productAdd, 
-router.route('/products').get(getProducts).post(validatorJoi.body(productShchema), checkFile, createProduct);
+router.route('/products').get(getProducts).post(checkUser, adminCheck, validatorJoi.body(productShchema), checkFile, createProduct);
 
 
 router.route('/top-5-products').get(getTop5products, getProducts);
 
 
 //   getProductById, deleteProduct, updateProduct, 
-router.route('/products/:id').get(getProduct).patch(validatorJoi.body(productUpdateSchema), updateFile,
-  updateProduct).delete(removeProduct);
+router.route('/products/:id').get(getProduct).patch(checkUser, adminCheck, validatorJoi.body(productUpdateSchema), updateFile,
+  updateProduct).delete(checkUser, adminCheck, removeProduct);
 
 export default router;
 
