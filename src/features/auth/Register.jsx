@@ -3,6 +3,8 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
+import { useRegisterUserMutation } from "./authApi.js";
+import toast from "react-hot-toast";
 
 const valSchema = Yup.object().shape({
   username: Yup.string().min(3, "Username must be at least 3 characters").required("Username is required"),
@@ -11,6 +13,7 @@ const valSchema = Yup.object().shape({
 });
 
 export default function Register() {
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
   const nav = useNavigate();
   const [show, setShow] = useState(false);
   return (
@@ -23,8 +26,15 @@ export default function Register() {
           password: ''
         }}
 
-        onSubmit={(val) => {
-          console.log(val);
+        onSubmit={async (val) => {
+          try {
+            await registerUser(val).unwrap();
+            toast.success("Registration Successfully");
+            nav(-1);
+          } catch (err) {
+            toast.error(err.data.message);
+          }
+
         }}
 
         validationSchema={valSchema}
@@ -84,7 +94,7 @@ export default function Register() {
 
             </div>
 
-            <Button type="submit">Submit</Button>
+            <Button loading={isLoading} type="submit">Submit</Button>
           </form>
         )}
 
