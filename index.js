@@ -4,6 +4,7 @@ import userRoutes from './routes/userRoutes.js';
 import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 //mvc
 
@@ -24,8 +25,13 @@ mongoose.connect('mongodb+srv://psg017597:pass900@cluster0.yqujtfd.mongodb.net/S
 }).catch((err) => {
   console.log(err);
 });
+app.use(cookieParser());
 
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:5173']
+}));
+app.use(express.static('uploads'));
 app.use(fileUpload({
   limits: { fileSize: 5 * 1024 * 1024 },
 }));
@@ -34,6 +40,7 @@ app.use(express.json());
 
 
 app.get('/', (req, res) => {
+  // console.log(req.cookies.jwt);
   return res.status(200).json({ message: 'hello' });
 });
 
