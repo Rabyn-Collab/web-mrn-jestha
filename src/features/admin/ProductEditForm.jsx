@@ -55,11 +55,12 @@ export default function ProductEditForm() {
             await updateProduct({
               data: formData,
               id: id,
-              token: user.token
+              token: user?.token
             }).unwrap();
             toast.success("Product Updated Successfully");
             nav(-1);
           } catch (err) {
+            console.log(err);
             toast.error(err.data.message);
           }
         }}
