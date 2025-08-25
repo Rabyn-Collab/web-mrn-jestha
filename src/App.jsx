@@ -5,6 +5,7 @@ import Login from "./features/auth/Login.jsx";
 import Register from "./features/auth/Register.jsx";
 import AdminUi from "./features/admin/AdminUi.jsx";
 import ProductAddForm from "./features/admin/ProductAddForm.jsx";
+import ProductEditForm from "./features/admin/ProductEditForm.jsx";
 
 
 
@@ -38,6 +39,10 @@ export default function App() {
           path: 'product-add-form',
           element: <ProductAddForm />
         },
+        {
+          path: 'product-edit/:id',
+          element: <ProductEditForm />
+        }
 
 
 
