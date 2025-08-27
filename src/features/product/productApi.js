@@ -5,6 +5,15 @@ import { mainApi } from "../../app/mainApi.js";
 export const productApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
 
+    getTopProducts: builder.query({
+      query: () => ({
+        url: '/top-5-products',
+        method: 'GET'
+      }),
+      providesTags: ['Product']
+    }),
+
+
     getProducts: builder.query({
       query: () => ({
         url: '/products',
@@ -65,7 +74,7 @@ export const productApi = mainApi.injectEndpoints({
 
 });
 
-export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation, useRemoveProductMutation, useUpdateProductMutation } = productApi;
+export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation, useRemoveProductMutation, useUpdateProductMutation, useGetTopProductsQuery } = productApi;
 
 
 

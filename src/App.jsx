@@ -6,6 +6,8 @@ import Register from "./features/auth/Register.jsx";
 import AdminUi from "./features/admin/AdminUi.jsx";
 import ProductAddForm from "./features/admin/ProductAddForm.jsx";
 import ProductEditForm from "./features/admin/ProductEditForm.jsx";
+import Home from "./features/home/Home.jsx";
+import ProductDetail from "./features/product/ProductDetail.jsx";
 
 
 
@@ -19,6 +21,7 @@ export default function App() {
       children: [
         {
           index: true,
+          element: <Home />
         },
         {
           path: 'login',
@@ -28,6 +31,11 @@ export default function App() {
         {
           path: 'register',
           element: <Register />,
+        },
+
+        {
+          path: 'product/:id',
+          element: <ProductDetail />
         },
 
 
