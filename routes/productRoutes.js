@@ -1,5 +1,5 @@
 import express from 'express';
-import { createProduct, getProduct, getProducts, getTop5products, removeProduct, updateProduct } from '../controllers/productController.js';
+import { createProduct, getProduct, getProducts, getTop5products, productReview, removeProduct, updateProduct } from '../controllers/productController.js';
 import { checkFile, updateFile } from '../middlewares/fileCheck.js';
 import { productShchema, productUpdateSchema, validatorJoi } from '../utils/validator.js';
 import { adminCheck, checkUser } from '../middlewares/checkAuth.js';
@@ -12,6 +12,7 @@ const router = express.Router();
 //getAllProducts,getTopRatedProducts, searchProduct,productAdd, 
 router.route('/products').get(getProducts).post(checkUser, adminCheck, validatorJoi.body(productShchema), checkFile, createProduct);
 
+router.route('/products/reviews/:id').post(checkUser, productReview)
 
 router.route('/top-5-products').get(getTop5products, getProducts);
 

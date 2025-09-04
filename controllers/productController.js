@@ -10,7 +10,7 @@ export const getTop5products = (req, res, next) => {
 }
 
 export const getProducts = async (req, res) => {
-  console.log(req.cookies.jwt);
+
   try {
     const queryObject = { ...req.query };
     const excludedFields = ['sort', 'fields', 'search', 'page', 'limit', 'skip'];
@@ -88,7 +88,10 @@ export const getProduct = async (req, res) => {
   try {
 
     if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'please provide valid id' });
-    const isExist = await Product.findById(id);
+    const isExist = await Product.findById(id).populate({
+      path: 'reviews.user',
+      select: 'username email'
+    });
     if (!isExist) res.status(404).json({ message: 'Product not found' });
     return res.status(200).json(isExist);
 
@@ -153,7 +156,27 @@ export const updateProduct = async (req, res) => {
 
 
 
-
+export const productReview = async (req, res) => {
+  const { id } = req.params;
+  const { rating, comment } = req.body;
+  try {
+    if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'please provide valid id' });
+    const isExist = await Product.findById(id);
+    if (!isExist) res.status(404).json({ message: 'Product not found' });
+    isExist.reviews.push({
+      user: req.userId,
+      rating,
+      comment
+    });
+    const avgRating = isExist.reviews.reduce((acc, item) => acc + item.rating, 0) / isExist.reviews.length;
+    isExist.rating = avgRating;
+    await isExist.save();
+    return res.status(201).json({ message: 'Review added successfully' });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ message: err.message });
+  }
+}
 
 
 
