@@ -10,6 +10,7 @@ export const productApi = mainApi.injectEndpoints({
       providesTags: ["Product"],
     }),
 
+
     getProducts: builder.query({
       query: (query) => ({
         url: "/products",
@@ -20,6 +21,8 @@ export const productApi = mainApi.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
+
+
     getProduct: builder.query({
       query: (id) => ({
         url: `/products/${id}`,
@@ -27,6 +30,8 @@ export const productApi = mainApi.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
+
+
     addProduct: builder.mutation({
       query: (q) => ({
         url: "/products",
@@ -36,8 +41,24 @@ export const productApi = mainApi.injectEndpoints({
         },
         method: "POST",
       }),
+      invalidatesTags: ["Product", "ID"],
+    }),
+
+
+    reviewProduct: builder.mutation({
+      query: (q) => ({
+        url: `/products/reviews/${q.id}`,
+        body: q.data,
+        headers: {
+          Authorization: q.token,
+        },
+        method: "POST",
+      }),
       invalidatesTags: ["Product"],
     }),
+
+
+
     removeProduct: builder.mutation({
       query: (q) => ({
         url: `/products/${q.id}`,
@@ -46,8 +67,11 @@ export const productApi = mainApi.injectEndpoints({
         },
         method: "DELETE",
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: ["Product", "ID"],
     }),
+
+
+
     updateProduct: builder.mutation({
       query: (q) => ({
         url: `/products/${q.id}`,
@@ -68,4 +92,5 @@ export const {
   useAddProductMutation,
   useRemoveProductMutation,
   useUpdateProductMutation,
+  useReviewProductMutation
 } = productApi;
