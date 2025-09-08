@@ -36,9 +36,9 @@ export const productApi = mainApi.injectEndpoints({
       query: (q) => ({
         url: "/products",
         body: q.data,
-        headers: {
-          Authorization: q.token,
-        },
+        // headers: {
+        //   Authorization: q.token,
+        // },
         method: "POST",
       }),
       invalidatesTags: ["Product", "ID"],
