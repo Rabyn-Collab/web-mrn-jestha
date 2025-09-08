@@ -3,7 +3,12 @@ import jwt from 'jsonwebtoken';
 
 
 export const checkUser = (req, res, next) => {
-  const token = req.headers.authorization;
+
+  // console.log(req.cookies);
+  // console.log('hello jee');
+  // const token = req.headers.authorization;
+  const token = req.cookies.jwt
+
 
   const decode = jwt.decode(token, 'secret');
 
