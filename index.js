@@ -30,7 +30,7 @@ app.use(cookieParser());
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:5173',]
+  origin: ['http://localhost:5173', 'https://web-mrn-jestha.vercel.app']
 }));
 app.use(express.static('uploads'));
 app.use(fileUpload({
