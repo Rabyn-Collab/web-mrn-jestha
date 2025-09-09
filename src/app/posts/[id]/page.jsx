@@ -1,9 +1,12 @@
 import React from 'react'
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
 
   const { id } = await params;
-  console.log(id);
+
+  const m = await searchParams;
+
+  console.log(m);
   return (
     <div>
       <h1>This is Detail</h1>
