@@ -8,8 +8,8 @@ export default function Header() {
       <h1>Next Js</h1>
 
       <nav className='flex gap-5'>
-        <Link href={'/posts'}>Posts</Link>
-        <Link href={'/about'}>About</Link>
+        <Link href={'/form/add'}>Add Emplyoee</Link>
+
       </nav>
 
     </div>

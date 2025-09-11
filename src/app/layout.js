@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import { Toaster } from 'react-hot-toast';
 import "./globals.css";
 
 
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Header />
+        <Toaster />
         {children}
       </body>
     </html>
