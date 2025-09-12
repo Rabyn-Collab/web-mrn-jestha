@@ -10,6 +10,9 @@ import {
 } from "@/components/ui/card"
 import Link from "next/link";
 import { Button } from "../components/ui/button";
+import RemoveButton from "../components/RemoveButton";
+
+//export const revalidate = 5;
 
 export default async function Page() {
   const response = await axios.get('https://60f3af443cb0870017a8a007.mockapi.io/employees');
@@ -21,7 +24,7 @@ export default async function Page() {
 
       {
         employees.map((employee) => {
-          return <Card key={employee.id} className={"mb-5 max-w-[300px]"}>
+          return <Card key={employee.id} className={"mb-5 max-w-[400px]"}>
             <CardHeader>
               <CardTitle>{employee.fullname}</CardTitle>
               <CardDescription>{employee.position}</CardDescription>
@@ -30,7 +33,13 @@ export default async function Page() {
 
             <CardFooter className={"flex justify-between"}>
               <Link href={`/employees/${employee.id}`}>Go to employee</Link>
-              <Button size="sm">Remove</Button>
+              <div className="flex gap-4">
+                <Link href={`/form/edit/${employee.id}`}> <Button size={"sm"} className={"bg-purple-500"}>Update</Button></Link>
+                <RemoveButton id={employee.id} />
+
+              </div>
+
+
             </CardFooter>
           </Card>
         })

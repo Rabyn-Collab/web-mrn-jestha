@@ -27,7 +27,7 @@ export async function updateEmployee(id, val) {
     await axios.put(`https://60f3af443cb0870017a8a007.mockapi.io/employees/${id}`, val);
     revalidatePath('/');
 
-    return { success: true, message: 'Employee removed successfully' }
+    return { success: true, message: 'Employee updated successfully' }
 
   } catch (err) {
 
