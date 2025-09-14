@@ -9,6 +9,7 @@ export default function Header() {
 
       <nav className='flex gap-5'>
         <Link href={'/form/add'}>Add Emplyoee</Link>
+        <Link href={'/posts'}>Posts</Link>
 
       </nav>
 

@@ -2,7 +2,6 @@ import axios from "axios"
 import {
   Card,
   CardAction,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -11,10 +10,17 @@ import {
 import Link from "next/link";
 import { Button } from "../components/ui/button";
 import RemoveButton from "../components/RemoveButton";
+import { getServerSession } from "next-auth";
+import { option } from "./api/auth/[...nextauth]/option";
 
 //export const revalidate = 5;
 
 export default async function Page() {
+  const session = await getServerSession(option);
+
+  console.log(session?.user);
+
+
   const response = await axios.get('https://60f3af443cb0870017a8a007.mockapi.io/employees');
 
   const employees = response.data;
