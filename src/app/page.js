@@ -18,7 +18,7 @@ import { option } from "./api/auth/[...nextauth]/option";
 export default async function Page() {
   const session = await getServerSession(option);
 
-  console.log(session?.user);
+  // console.log(session?.user);
 
 
   const response = await axios.get('https://60f3af443cb0870017a8a007.mockapi.io/employees');

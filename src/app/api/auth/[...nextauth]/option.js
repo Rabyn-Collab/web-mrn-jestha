@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials"
-
-
+import dbConnect from "../../../../lib/mongodb";
+import User from "../../../../models/User";
+import bcrypt from "bcrypt";
 
 
 export const option = {
@@ -13,17 +14,12 @@ export const option = {
         password: { label: "password", type: "password", placeholder: "password" },
       },
       async authorize(credentials) {
-        const user = {
-          id: "1",
-          name: "John Doe",
-          email: 'example@gmail.com',
-          password: 'password'
-        };
-        if (credentials.email === user.email && credentials.password === user.password) {
-          return user;
-        } else {
-          return null;
-        }
+        await dbConnect();
+        const isExist = await User.findOne({ email: credentials.email });
+        if (!isExist) throw new Error("User not found");
+        const pass = bcrypt.compareSync(credentials.password, isExist.password);
+        if (!pass) throw new Error("Invalid password");
+        return isExist;
       }
     }),
 

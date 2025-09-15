@@ -10,10 +10,9 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import axios from "axios";
 import { Formik } from "formik"
 import { Loader2Icon } from "lucide-react";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
@@ -25,36 +24,31 @@ export default function Page() {
     <div className="p-5">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Register to your account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your detail below to register to your account
           </CardDescription>
           <CardAction>
-            <Link href={'/form/register'}>Sign Up</Link>
+            <Button onClick={() => router.back()} variant="link">Login</Button>
           </CardAction>
         </CardHeader>
         <CardContent>
 
           <Formik
             initialValues={{
+              name: '',
               email: '',
               password: ''
             }}
             onSubmit={(val) => {
               startTransition(async () => {
-                const res = await signIn('credentials', {
-                  email: val.email,
-                  password: val.password,
-                  redirect: false
-                });
-                if (res.ok) {
-                  toast.success('Successfully logged in');
+                try {
+                  await axios.post('http://localhost:3000/api/auth/register', val);
+                  toast.success('Successfully registered');
                   router.back();
-
-                } else {
-                  toast.error(res.error);
+                } catch (err) {
+                  toast.error(err.message)
                 }
-
               });
 
 
@@ -63,6 +57,18 @@ export default function Page() {
             {({ handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-6">
+
+                  <div className="grid gap-2">
+                    <Label htmlFor="username">Username</Label>
+                    <Input
+                      name="name"
+                      onChange={handleChange}
+                      id="username"
+                      type="text"
+                      placeholder="john@gmail.com"
+
+                    />
+                  </div>
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
@@ -90,7 +96,7 @@ export default function Page() {
                     <Loader2Icon className="animate-spin " />
                     Please wait
                   </Button> : <Button type="submit" className="w-full">
-                    Login
+                    Submit
                   </Button>}
                 </div>
 
