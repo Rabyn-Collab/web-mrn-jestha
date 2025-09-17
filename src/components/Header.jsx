@@ -1,13 +1,12 @@
-import { getServerSession } from 'next-auth';
+'use client'
 import Link from 'next/link'
 import React from 'react'
-import { option } from '../app/api/auth/[...nextauth]/option';
-import { signOut } from 'next-auth/react';
 import SignOutButton from './SignOutButton';
+import { useSession } from 'next-auth/react';
 
-export default async function Header() {
-  const session = await getServerSession(option);
-  console.log(session);
+export default function Header() {
+  const { data, status } = useSession();
+
   return (
     <div className='flex bg-gray-100 gap-5 py-2'>
 
@@ -19,9 +18,9 @@ export default async function Header() {
           <Link href={'/posts'}>Posts</Link>
         </div>
         <div className='flex gap-5'>
-          {session ? <h1>{session?.user.email}</h1> : <Link href={'/form/login'}>Login</Link>}
+          {status === 'authenticated' ? <h1>{data?.user.email}</h1> : <Link href={'/form/login'}>Login</Link>}
           {
-            session && <SignOutButton />
+            status === 'authenticated' && <SignOutButton />
           }
 
         </div>
